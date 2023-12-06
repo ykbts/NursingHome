@@ -1,0 +1,12 @@
+D:\роботи ВС\NursingHome\NursingHome\bin\Debug\NursingHome.exe.config
+D:\роботи ВС\NursingHome\NursingHome\bin\Debug\NursingHome.exe
+D:\роботи ВС\NursingHome\NursingHome\bin\Debug\NursingHome.pdb
+D:\роботи ВС\NursingHome\NursingHome\obj\Debug\NursingHome.csproj.AssemblyReference.cache
+D:\роботи ВС\NursingHome\NursingHome\obj\Debug\NursingHome.csproj.SuggestedBindingRedirects.cache
+D:\роботи ВС\NursingHome\NursingHome\obj\Debug\NursingHome.Form1.resources
+D:\роботи ВС\NursingHome\NursingHome\obj\Debug\NursingHome.Properties.Resources.resources
+D:\роботи ВС\NursingHome\NursingHome\obj\Debug\NursingHome.csproj.GenerateResource.cache
+D:\роботи ВС\NursingHome\NursingHome\obj\Debug\NursingHome.csproj.CoreCompileInputs.cache
+D:\роботи ВС\NursingHome\NursingHome\obj\Debug\NursingHome.exe
+D:\роботи ВС\NursingHome\NursingHome\obj\Debug\NursingHome.pdb
+D:\роботи ВС\NursingHome\NursingHome\obj\Debug\NursingHome.Employee.resources
