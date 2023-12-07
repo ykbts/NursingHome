@@ -31,7 +31,7 @@ namespace NursingHome
                 ds = new DataSet();
                 adapter.Fill(ds);
                 dataGridView1.DataSource = ds.Tables[0];
-               // dataGridView2.DataSource = ds.Tables[0];
+                dataGridView1.Columns["PatientId"].ReadOnly = true;
             }
            
           
@@ -72,7 +72,7 @@ namespace NursingHome
                             textBoxID.Text = idEmployee.ToString();
                             textBoxFirstName.Text = FirstName;
                             textBoxLastName.Text = LastName;
-                            textBoxBirthday.Text = birthdayString;
+                            dateTimeBirthday.Text = birthdayString;
                             textBoxAddress.Text = Address.ToString();
                             textBoxPosition.Text = proffesion.ToString();
                             textBoxSalary.Text = salary.ToString();
@@ -90,6 +90,20 @@ namespace NursingHome
                     MessageBox.Show("Не вийшло отримати дані з БД");
                 }
             }
+            string sql3 = $"select Patients.FirstName, Patients.LastName, [Time], Treatments.Name as 'Title', Treatments.Duration, Places.Name as 'Place'\r\nfrom Schedules\r\njoin Patients on Schedules.PatientId = Patients.PatientId\r\njoin Treatments on Schedules.TreatmentId = Treatments.TreatmentId\r\njoin Places on Schedules.PlaceId = Places.PlaceId\r\nWhere Schedules.EmployeeId = {idEmployee}";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                adapter = new SqlDataAdapter(sql3, connection);
+                ds = new DataSet();
+                adapter.Fill(ds);
+                dataGridView3.DataSource = ds.Tables[0];
+            }
+            comboBoxPatient.DataBindings.Add("Text", ds.Tables[0], "FirstName", true);
+            comboBoxTime.DataBindings.Add("Text", ds.Tables[0], "Time", true);
+            comboBoxDuration.DataBindings.Add("Text", ds.Tables[0], "Duration", true);
+            comboBoxPlace.DataBindings.Add("Text", ds.Tables[0], "Place", true);
+            comboBoxTitle.DataBindings.Add("Text", ds.Tables[0], "Title", true);
+            
         }
 
         private void tabPage2_Click(object sender, EventArgs e)
@@ -130,55 +144,119 @@ namespace NursingHome
 
         private void Employee_Load(object sender, EventArgs e)
         {
-          
+            // TODO: This line of code loads data into the 'nursingHomeDataSet.Places' table. You can move, or remove it, as needed.
+            this.placesTableAdapter.Fill(this.nursingHomeDataSet.Places);
+            // TODO: This line of code loads data into the 'nursingHomeDataSet.Treatments' table. You can move, or remove it, as needed.
+            this.treatmentsTableAdapter.Fill(this.nursingHomeDataSet.Treatments);
+            // TODO: This line of code loads data into the 'nursingHomeDataSet.Schedules' table. You can move, or remove it, as needed.
+            this.schedulesTableAdapter.Fill(this.nursingHomeDataSet.Schedules);
+
 
         }
 
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
-            if (e.RowIndex >= 0) // Make sure a valid row is clicked
-            {
-                DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
-
-                // Assuming RoomId is stored in a specific cell (change index accordingly)
-                 idPatient = Convert.ToInt32(selectedRow.Cells["PatientId"].Value);
-
-                // Filter data for the second DataGridView based on roomId
-                string sql2 = $"Select * from Appoinments where PatientId={idPatient}";
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    adapter = new SqlDataAdapter(sql2, connection);
-                    ds = new DataSet();
-                    adapter.Fill(ds);
-                    dataGridView2.DataSource = ds.Tables[0];
-                }
-                /*
-                   string sql2 = $"Select * from Appoinments where PatientId={idPatient}";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                adapter = new SqlDataAdapter(sql2, connection);
-                ds = new DataSet();
-                adapter.Fill(ds);
-                dataGridView2.DataSource = ds.Tables[0];
-            }*/
-            }
+        
         }
 
-        private void FilterDataGridView2ByRoomId(int roomId)
-        {
-            string sql2 = $"Select * from Appoinments where PatientId={roomId}";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                adapter = new SqlDataAdapter(sql2, connection);
-                ds = new DataSet();
-                adapter.Fill(ds);
-                dataGridView2.DataSource = ds.Tables[0];
-            }
-        }
+
+
+    
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView2_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView2_SelectionChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dataGridView1.SelectedRows.Count > 0)
+                {
+                    DataGridViewRow selectedRow = dataGridView1.SelectedRows[0];
+
+                    // Assuming PatientId is stored in a specific cell (change index accordingly)
+                    if (selectedRow.Cells["PatientId"].Value != null &&
+                        int.TryParse(selectedRow.Cells["PatientId"].Value.ToString(), out int idPatient))
+                    {
+                        string sql2 = $"SELECT Medicines.Name, Dose, [Time] ,Medicines.Amount\r\nFROM Appointments \r\nJoin Medicines ON Appointments.MedicineId = Medicines.MedicineId WHERE PatientId = {idPatient}";
+
+                        using (SqlConnection connection = new SqlConnection(connectionString))
+                        {
+                            SqlDataAdapter adapter = new SqlDataAdapter(sql2, connection);
+                            DataSet ds = new DataSet();
+
+                            connection.Open();
+                            adapter.Fill(ds);
+                            dataGridView2.DataSource = ds.Tables[0];
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid PatientId or null value.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+        }
+
+        private void dataGridView1_SizeChanged(object sender, EventArgs e)
+        {
+          
+        }
+
+        private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView3_SelectionChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void textBoxp_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView3_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void textBoxBirthday_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateTimeBirthday_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label13_Click(object sender, EventArgs e)
         {
 
         }

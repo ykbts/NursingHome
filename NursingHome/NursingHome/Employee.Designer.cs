@@ -43,7 +43,6 @@
             this.textBoxSalary = new System.Windows.Forms.TextBox();
             this.textBoxPosition = new System.Windows.Forms.TextBox();
             this.textBoxAddress = new System.Windows.Forms.TextBox();
-            this.textBoxBirthday = new System.Windows.Forms.TextBox();
             this.textBoxLastName = new System.Windows.Forms.TextBox();
             this.textBoxFirstName = new System.Windows.Forms.TextBox();
             this.textBoxID = new System.Windows.Forms.TextBox();
@@ -56,28 +55,59 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.nursingHomeDataSet = new NursingHome.NursingHomeDataSet();
             this.patientsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.patientsTableAdapter = new NursingHome.NursingHomeDataSetTableAdapters.PatientsTableAdapter();
             this.nursingHomeDataSet1 = new NursingHome.NursingHomeDataSet();
             this.patientsBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.schedulesBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.schedulesTableAdapter = new NursingHome.NursingHomeDataSetTableAdapters.SchedulesTableAdapter();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.dateTimeBirthday = new System.Windows.Forms.DateTimePicker();
+            this.Patient = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.comboBoxPatient = new System.Windows.Forms.ComboBox();
+            this.comboBoxDuration = new System.Windows.Forms.ComboBox();
+            this.comboBoxPlace = new System.Windows.Forms.ComboBox();
+            this.comboBoxTitle = new System.Windows.Forms.ComboBox();
+            this.treatmentsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.treatmentsTableAdapter = new NursingHome.NursingHomeDataSetTableAdapters.TreatmentsTableAdapter();
+            this.comboBoxTime = new System.Windows.Forms.ComboBox();
+            this.treatmentsBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.placesBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.placesTableAdapter = new NursingHome.NursingHomeDataSetTableAdapters.PlacesTableAdapter();
+            this.schedulesBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.treatmentsBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nursingHomeDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.patientsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nursingHomeDataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.patientsBindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.schedulesBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treatmentsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treatmentsBindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.placesBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.schedulesBindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treatmentsBindingSource2)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(1, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -86,6 +116,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.dateTimeBirthday);
             this.tabPage1.Controls.Add(this.label12);
             this.tabPage1.Controls.Add(this.textBoxjobDesription);
             this.tabPage1.Controls.Add(this.textBoxCountry);
@@ -98,7 +129,6 @@
             this.tabPage1.Controls.Add(this.textBoxSalary);
             this.tabPage1.Controls.Add(this.textBoxPosition);
             this.tabPage1.Controls.Add(this.textBoxAddress);
-            this.tabPage1.Controls.Add(this.textBoxBirthday);
             this.tabPage1.Controls.Add(this.textBoxLastName);
             this.tabPage1.Controls.Add(this.textBoxFirstName);
             this.tabPage1.Controls.Add(this.textBoxID);
@@ -215,13 +245,6 @@
             this.textBoxAddress.TabIndex = 12;
             this.textBoxAddress.TextChanged += new System.EventHandler(this.textBoxAddress_TextChanged);
             // 
-            // textBoxBirthday
-            // 
-            this.textBoxBirthday.Location = new System.Drawing.Point(182, 185);
-            this.textBoxBirthday.Name = "textBoxBirthday";
-            this.textBoxBirthday.Size = new System.Drawing.Size(145, 22);
-            this.textBoxBirthday.TabIndex = 11;
-            // 
             // textBoxLastName
             // 
             this.textBoxLastName.Location = new System.Drawing.Point(182, 142);
@@ -329,6 +352,18 @@
             this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
+            // dataGridView2
+            // 
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Location = new System.Drawing.Point(355, 340);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.RowHeadersWidth = 51;
+            this.dataGridView2.RowTemplate.Height = 24;
+            this.dataGridView2.Size = new System.Drawing.Size(603, 98);
+            this.dataGridView2.TabIndex = 1;
+            this.dataGridView2.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellContentClick_1);
+            this.dataGridView2.SelectionChanged += new System.EventHandler(this.dataGridView2_SelectionChanged);
+            // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -336,9 +371,11 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(571, 505);
+            this.dataGridView1.Size = new System.Drawing.Size(1171, 305);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
+            this.dataGridView1.SizeChanged += new System.EventHandler(this.dataGridView1_SizeChanged);
             // 
             // nursingHomeDataSet
             // 
@@ -364,15 +401,183 @@
             this.patientsBindingSource1.DataMember = "Patients";
             this.patientsBindingSource1.DataSource = this.nursingHomeDataSet1;
             // 
-            // dataGridView2
+            // tabPage3
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(607, 3);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowHeadersWidth = 51;
-            this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(571, 505);
-            this.dataGridView2.TabIndex = 1;
+            this.tabPage3.Controls.Add(this.comboBoxTime);
+            this.tabPage3.Controls.Add(this.comboBoxTitle);
+            this.tabPage3.Controls.Add(this.comboBoxPlace);
+            this.tabPage3.Controls.Add(this.comboBoxDuration);
+            this.tabPage3.Controls.Add(this.comboBoxPatient);
+            this.tabPage3.Controls.Add(this.label16);
+            this.tabPage3.Controls.Add(this.label15);
+            this.tabPage3.Controls.Add(this.label14);
+            this.tabPage3.Controls.Add(this.label13);
+            this.tabPage3.Controls.Add(this.Patient);
+            this.tabPage3.Controls.Add(this.dataGridView3);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(1178, 512);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Schedule";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // schedulesBindingSource
+            // 
+            this.schedulesBindingSource.DataMember = "Schedules";
+            this.schedulesBindingSource.DataSource = this.nursingHomeDataSet;
+            // 
+            // schedulesTableAdapter
+            // 
+            this.schedulesTableAdapter.ClearBeforeFill = true;
+            // 
+            // dataGridView3
+            // 
+            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView3.Location = new System.Drawing.Point(7, 0);
+            this.dataGridView3.Name = "dataGridView3";
+            this.dataGridView3.RowHeadersWidth = 51;
+            this.dataGridView3.RowTemplate.Height = 24;
+            this.dataGridView3.Size = new System.Drawing.Size(1165, 218);
+            this.dataGridView3.TabIndex = 0;
+            this.dataGridView3.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellContentClick_1);
+            // 
+            // dateTimeBirthday
+            // 
+            this.dateTimeBirthday.Location = new System.Drawing.Point(182, 185);
+            this.dateTimeBirthday.Name = "dateTimeBirthday";
+            this.dateTimeBirthday.Size = new System.Drawing.Size(145, 22);
+            this.dateTimeBirthday.TabIndex = 25;
+            this.dateTimeBirthday.ValueChanged += new System.EventHandler(this.dateTimeBirthday_ValueChanged);
+            // 
+            // Patient
+            // 
+            this.Patient.AutoSize = true;
+            this.Patient.Location = new System.Drawing.Point(36, 289);
+            this.Patient.Name = "Patient";
+            this.Patient.Size = new System.Drawing.Size(48, 16);
+            this.Patient.TabIndex = 1;
+            this.Patient.Text = "Patient";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(46, 351);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(38, 16);
+            this.label13.TabIndex = 2;
+            this.label13.Text = "Time";
+            this.label13.Click += new System.EventHandler(this.label13_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(482, 400);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(33, 16);
+            this.label14.TabIndex = 3;
+            this.label14.Text = "Title";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(473, 289);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(57, 16);
+            this.label15.TabIndex = 4;
+            this.label15.Text = "Duration";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(473, 336);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(42, 16);
+            this.label16.TabIndex = 5;
+            this.label16.Text = "Place";
+            // 
+            // comboBoxPatient
+            // 
+            this.comboBoxPatient.FormattingEnabled = true;
+            this.comboBoxPatient.Location = new System.Drawing.Point(124, 286);
+            this.comboBoxPatient.Name = "comboBoxPatient";
+            this.comboBoxPatient.Size = new System.Drawing.Size(253, 24);
+            this.comboBoxPatient.TabIndex = 6;
+            // 
+            // comboBoxDuration
+            // 
+            this.comboBoxDuration.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.schedulesBindingSource, "TreatmentId", true));
+            this.comboBoxDuration.FormattingEnabled = true;
+            this.comboBoxDuration.Location = new System.Drawing.Point(570, 281);
+            this.comboBoxDuration.Name = "comboBoxDuration";
+            this.comboBoxDuration.Size = new System.Drawing.Size(253, 24);
+            this.comboBoxDuration.TabIndex = 7;
+            // 
+            // comboBoxPlace
+            // 
+            this.comboBoxPlace.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.schedulesBindingSource1, "PlaceId", true));
+            this.comboBoxPlace.DataSource = this.placesBindingSource;
+            this.comboBoxPlace.DisplayMember = "Name";
+            this.comboBoxPlace.FormattingEnabled = true;
+            this.comboBoxPlace.Location = new System.Drawing.Point(570, 328);
+            this.comboBoxPlace.Name = "comboBoxPlace";
+            this.comboBoxPlace.Size = new System.Drawing.Size(253, 24);
+            this.comboBoxPlace.TabIndex = 8;
+            this.comboBoxPlace.ValueMember = "PlaceId";
+            // 
+            // comboBoxTitle
+            // 
+            this.comboBoxTitle.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.schedulesBindingSource1, "TreatmentId", true));
+            this.comboBoxTitle.DataSource = this.treatmentsBindingSource2;
+            this.comboBoxTitle.DisplayMember = "Name";
+            this.comboBoxTitle.FormattingEnabled = true;
+            this.comboBoxTitle.Location = new System.Drawing.Point(570, 392);
+            this.comboBoxTitle.Name = "comboBoxTitle";
+            this.comboBoxTitle.Size = new System.Drawing.Size(253, 24);
+            this.comboBoxTitle.TabIndex = 9;
+            this.comboBoxTitle.ValueMember = "TreatmentId";
+            // 
+            // treatmentsBindingSource
+            // 
+            this.treatmentsBindingSource.DataMember = "Treatments";
+            this.treatmentsBindingSource.DataSource = this.nursingHomeDataSet;
+            // 
+            // treatmentsTableAdapter
+            // 
+            this.treatmentsTableAdapter.ClearBeforeFill = true;
+            // 
+            // comboBoxTime
+            // 
+            this.comboBoxTime.FormattingEnabled = true;
+            this.comboBoxTime.Location = new System.Drawing.Point(124, 348);
+            this.comboBoxTime.Name = "comboBoxTime";
+            this.comboBoxTime.Size = new System.Drawing.Size(253, 24);
+            this.comboBoxTime.TabIndex = 11;
+            this.comboBoxTime.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // treatmentsBindingSource1
+            // 
+            this.treatmentsBindingSource1.DataMember = "Treatments";
+            this.treatmentsBindingSource1.DataSource = this.nursingHomeDataSet;
+            // 
+            // placesBindingSource
+            // 
+            this.placesBindingSource.DataMember = "Places";
+            this.placesBindingSource.DataSource = this.nursingHomeDataSet;
+            // 
+            // placesTableAdapter
+            // 
+            this.placesTableAdapter.ClearBeforeFill = true;
+            // 
+            // schedulesBindingSource1
+            // 
+            this.schedulesBindingSource1.DataMember = "Schedules";
+            this.schedulesBindingSource1.DataSource = this.nursingHomeDataSet;
+            // 
+            // treatmentsBindingSource2
+            // 
+            this.treatmentsBindingSource2.DataMember = "Treatments";
+            this.treatmentsBindingSource2.DataSource = this.nursingHomeDataSet;
             // 
             // Employee
             // 
@@ -387,12 +592,21 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nursingHomeDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.patientsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nursingHomeDataSet1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.patientsBindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.schedulesBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treatmentsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treatmentsBindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.placesBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.schedulesBindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treatmentsBindingSource2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -407,7 +621,6 @@
         private System.Windows.Forms.TextBox textBoxSalary;
         private System.Windows.Forms.TextBox textBoxPosition;
         private System.Windows.Forms.TextBox textBoxAddress;
-        private System.Windows.Forms.TextBox textBoxBirthday;
         private System.Windows.Forms.TextBox textBoxLastName;
         private System.Windows.Forms.TextBox textBoxFirstName;
         private System.Windows.Forms.TextBox textBoxID;
@@ -433,5 +646,27 @@
         private NursingHomeDataSet nursingHomeDataSet1;
         private System.Windows.Forms.BindingSource patientsBindingSource1;
         private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.BindingSource schedulesBindingSource;
+        private NursingHomeDataSetTableAdapters.SchedulesTableAdapter schedulesTableAdapter;
+        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.DateTimePicker dateTimeBirthday;
+        private System.Windows.Forms.ComboBox comboBoxTitle;
+        private System.Windows.Forms.ComboBox comboBoxPlace;
+        private System.Windows.Forms.ComboBox comboBoxDuration;
+        private System.Windows.Forms.ComboBox comboBoxPatient;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label Patient;
+        private System.Windows.Forms.BindingSource treatmentsBindingSource;
+        private NursingHomeDataSetTableAdapters.TreatmentsTableAdapter treatmentsTableAdapter;
+        private System.Windows.Forms.ComboBox comboBoxTime;
+        private System.Windows.Forms.BindingSource treatmentsBindingSource1;
+        private System.Windows.Forms.BindingSource placesBindingSource;
+        private NursingHomeDataSetTableAdapters.PlacesTableAdapter placesTableAdapter;
+        private System.Windows.Forms.BindingSource schedulesBindingSource1;
+        private System.Windows.Forms.BindingSource treatmentsBindingSource2;
     }
 }
