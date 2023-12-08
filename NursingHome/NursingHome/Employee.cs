@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,8 +17,11 @@ namespace NursingHome
     {
         string connectionString = @"Data Source=KATYA; Initial Catalog=NursingHome; Integrated Security = True;";
         int id;
-        int idEmployee;
+     public int idEmployee;
         int idPatient;
+        string firstName;
+        string lastName;
+
         SqlDataAdapter adapter;
         DataSet ds;
         public Employee(int id)
@@ -90,17 +94,24 @@ namespace NursingHome
                     MessageBox.Show("Не вийшло отримати дані з БД");
                 }
             }
-            string sql3 = $"select Patients.FirstName, Patients.LastName, [Time], Treatments.Name as 'Title', Treatments.Duration, Places.Name as 'Place'\r\nfrom Schedules\r\njoin Patients on Schedules.PatientId = Patients.PatientId\r\njoin Treatments on Schedules.TreatmentId = Treatments.TreatmentId\r\njoin Places on Schedules.PlaceId = Places.PlaceId\r\nWhere Schedules.EmployeeId = {idEmployee}";
+            string sql3 = $"select ScheduleId,CONCAT(Patients.FirstName, ' ', Patients.LastName) AS FullName, [Time], Treatments.Name as 'Title', Treatments.Duration, Places.Name as 'Place'\r\nfrom Schedules\r\njoin Patients on Schedules.PatientId = Patients.PatientId\r\njoin Treatments on Schedules.TreatmentId = Treatments.TreatmentId\r\njoin Places on Schedules.PlaceId = Places.PlaceId\r\nWhere Schedules.EmployeeId = {idEmployee}";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 adapter = new SqlDataAdapter(sql3, connection);
                 ds = new DataSet();
                 adapter.Fill(ds);
+                //DataColumn fullNameColumn = new DataColumn("FullName", typeof(string), "FirstName + ' ' + LastName");
+               // ds.Tables[0].Columns.Add(fullNameColumn);
+
+                // Assuming you have a DataGridView named dataGridViewPatients
+              
                 dataGridView3.DataSource = ds.Tables[0];
             }
-            comboBoxPatient.DataBindings.Add("Text", ds.Tables[0], "FirstName", true);
-            comboBoxTime.DataBindings.Add("Text", ds.Tables[0], "Time", true);
-            comboBoxDuration.DataBindings.Add("Text", ds.Tables[0], "Duration", true);
+           // CreateListPatient();
+            comboBoxPatient.DataBindings.Add("Text", ds.Tables[0], "FullName", true);
+            CreateListPatient();
+            textBoxTime.DataBindings.Add("Text", ds.Tables[0], "Time", true);
+            textBoxDuration.DataBindings.Add("Text", ds.Tables[0], "Duration", true);
             comboBoxPlace.DataBindings.Add("Text", ds.Tables[0], "Place", true);
             comboBoxTitle.DataBindings.Add("Text", ds.Tables[0], "Title", true);
             
@@ -259,6 +270,263 @@ namespace NursingHome
         private void label13_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //Добавляем новую пустую строку по той же схеме что и в таблице и добавляем её туда
+            DataRow row = ds.Tables[0].NewRow();
+            ds.Tables[0].Rows.Add(row);
+
+            //Выделяем созданную строку
+            dataGridView3.ClearSelection();
+            dataGridView3.Rows[dataGridView3.Rows.Count - 1].Selected = true;
+            dataGridView3.CurrentCell = dataGridView3.Rows[dataGridView3.Rows.Count - 1].Cells[0];
+            dataGridView3.Refresh();
+        }
+
+        private void textBoxDuration_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand();
+                    command.Connection = connection;
+
+                    object selectedScheduleIdValue = dataGridView3.SelectedRows[0].Cells["ScheduleId"].Value;
+
+                    if (selectedScheduleIdValue == DBNull.Value)
+                    {
+                        // Insert new record since ScheduleId is DBNull
+                        command.CommandText = @"INSERT INTO Schedules (PatientId, EmployeeId, TreatmentId, PlaceId, [Time]) 
+                                       VALUES (@PatientId, @EmployeeId, @TreatmentId, @PlaceId, @Time);";
+
+                    }
+                    else
+                    {
+                        int selectedScheduleId = Convert.ToInt32(dataGridView3.SelectedRows[0].Cells["ScheduleId"].Value); 
+                        command.CommandText = @"UPDATE Schedules 
+                                   SET PatientId = @PatientId, 
+                                       EmployeeId = @EmployeeId, 
+                                       TreatmentId = @TreatmentId, 
+                                       PlaceId = @PlaceId, 
+                                       [Time] = @Time  
+                                   WHERE ScheduleId = @SelectedScheduleId";
+
+                        // Set the parameter values based on your UI controls
+                        command.Parameters.Add("@SelectedScheduleId", SqlDbType.Int).Value = selectedScheduleId;
+                    }
+                    int treatmentId = GetTreatmentId(comboBoxTitle.Text, textBoxDuration.Text);
+                    int placeId = GetPlacesId(comboBoxPlace.Text);
+                    command.Parameters.Add("@PatientId", SqlDbType.Int).Value = Convert.ToInt32(comboBoxPatient.SelectedValue);
+                    command.Parameters.Add("@EmployeeId", SqlDbType.Int).Value = idEmployee; 
+                    command.Parameters.Add("@TreatmentId", SqlDbType.Int).Value = treatmentId;
+                    command.Parameters.Add("@PlaceId", SqlDbType.Int).Value = placeId;
+                    command.Parameters.Add("@Time", SqlDbType.VarChar, 20).Value = textBoxTime.Text;
+
+                    command.ExecuteNonQuery();
+                    DisplayDataOnForm(id);
+                    dataGridView3.Refresh();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to update the record in the database. Error: " + ex.Message);
+                }
+
+            }
+        }
+
+        private int GetTreatmentId(string name, string duration)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string sqlSelect = "SELECT TreatmentId FROM Treatments WHERE Name = @Name AND Duration = @Duration";
+                    SqlCommand selectCommand = new SqlCommand(sqlSelect, connection);
+                    selectCommand.Parameters.Add("@Name", SqlDbType.VarChar, 255).Value = name;
+                    selectCommand.Parameters.Add("@Duration", SqlDbType.VarChar, 255).Value = duration;
+
+                    object result = selectCommand.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        return Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        // Record not found, insert a new treatment
+                        string sqlInsert = "INSERT INTO Treatments (Name, Duration) VALUES (@Name, @Duration); SELECT SCOPE_IDENTITY();";
+                        SqlCommand insertCommand = new SqlCommand(sqlInsert, connection);
+                        insertCommand.Parameters.Add("@Name", SqlDbType.VarChar, 255).Value = name;
+                        insertCommand.Parameters.Add("@Duration", SqlDbType.VarChar, 255).Value = duration;
+
+                        // Execute the insert command and get the newly inserted TreatmentId
+                        object newTreatmentId = insertCommand.ExecuteScalar();
+
+                        if (newTreatmentId != null && newTreatmentId != DBNull.Value)
+                        {
+                            //MessageBox.Show("New treatment inserted successfully.");
+                            return Convert.ToInt32(newTreatmentId);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to insert a new treatment.");
+                            return -1;
+                        }
+                    }
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show("Failed to read from or write to the database. " + exception.Message);
+                    return -1;
+                }
+            }
+        }
+
+
+        private int GetPlacesId(string name)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string sql = "SELECT PlaceId FROM Places WHERE Name = @Name";
+                    SqlCommand command = new SqlCommand(sql, connection);
+                    command.Parameters.Add("@Name", SqlDbType.VarChar, 255).Value = name;
+
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        return Convert.ToInt32(result);
+                    }
+                    else
+                    {
+
+                        MessageBox.Show("Record not found in the Treatments table.");
+                        return -1;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show("Failed to read from the database. " + exception.Message);
+                    return -1;
+                }
+            }
+        }
+
+        private void GetPatient(string PatientId)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    string sql = $"SELECT FirstName, LastName FROM Patients WHERE PatientId = {PatientId}";
+                    SqlCommand command = new SqlCommand(sql, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                         firstName = reader.GetString(0);
+                         lastName = reader.GetString(1);
+
+                    }
+                
+
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                    //    Convert.ToInt32(result);
+                    }
+                    else
+                    {
+
+                        MessageBox.Show("Record not found in the Treatments table.");
+                    }
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show("Failed to read from the database. " + exception.Message);
+                }
+            }
+        }
+        private void CreateListPatient()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string sql = "SELECT PatientId, FirstName + ' ' + LastName as FullName FROM Patients";
+                    SqlDataAdapter adapter = new SqlDataAdapter(sql, connection);
+
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds);
+
+                    // Assuming you have a ComboBox named comboBoxPatient
+                    comboBoxPatient.DataSource = ds.Tables[0];
+                    comboBoxPatient.DisplayMember = "FullName";
+                    comboBoxPatient.ValueMember = "PatientId";
+
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show("Failed to read from the database. " + exception.Message);
+                }
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+              
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        int selectedScheduleId = Convert.ToInt32(dataGridView3.SelectedRows[0].Cells["ScheduleId"].Value);
+                        connection.Open();
+                        SqlCommand command = new SqlCommand();
+                        command.Connection = connection;
+                        command.CommandText = @"DELETE Schedules WHERE ScheduleId = @Id";
+                        command.Parameters.Add("@Id", SqlDbType.Int);
+
+                        ImageConverter converter = new ImageConverter();
+
+
+                        command.Parameters["@Id"].Value = selectedScheduleId;
+                        command.ExecuteNonQuery();
+                    foreach (DataGridViewRow row in dataGridView3.SelectedRows)
+                    {
+
+                        dataGridView3.Rows.Remove(row);
+                    }
+
+                }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show("Не получилось удалить из БД. " + exception.Message);
+                    }
+                }
+            
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form1 form1 = new Form1();
+            form1.Show();
+            this.Hide();
         }
     }
 }
