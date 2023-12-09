@@ -10,3 +10,4 @@ D:\роботи ВС\NursingHome\NursingHome\obj\Debug\NursingHome.csproj.CoreCo
 D:\роботи ВС\NursingHome\NursingHome\obj\Debug\NursingHome.exe
 D:\роботи ВС\NursingHome\NursingHome\obj\Debug\NursingHome.pdb
 D:\роботи ВС\NursingHome\NursingHome\obj\Debug\NursingHome.Employee.resources
+D:\роботи ВС\NursingHome\NursingHome\obj\Debug\NursingHome.Patients.resources

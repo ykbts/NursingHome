@@ -74,10 +74,10 @@ namespace NursingHome
                                         this.Hide();
                                         break;
                                 case "Patient":
-                                    Employee employee1 = new Employee(userId);
-                                    employee1.Show();
-                                    this.Hide();
-                                    break;
+                                        Patients patients = new Patients(userId);
+                                         patients.Show();
+                                        this.Hide();
+                                        break;
                                 case "Visitor":
                                     Employee employee3 = new Employee(userId);
                                     employee3.Show();

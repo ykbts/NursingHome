@@ -284,11 +284,9 @@ namespace NursingHome
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //Добавляем новую пустую строку по той же схеме что и в таблице и добавляем её туда
             DataRow row = ds.Tables[0].NewRow();
             ds.Tables[0].Rows.Add(row);
 
-            //Выделяем созданную строку
             dataGridView3.ClearSelection();
             dataGridView3.Rows[dataGridView3.Rows.Count - 1].Selected = true;
             dataGridView3.CurrentCell = dataGridView3.Rows[dataGridView3.Rows.Count - 1].Cells[0];
@@ -872,5 +870,14 @@ namespace NursingHome
             }
         }
 
+        private void comboBoxPatient_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxCity_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
