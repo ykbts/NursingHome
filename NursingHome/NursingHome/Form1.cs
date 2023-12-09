@@ -102,5 +102,10 @@ namespace NursingHome
             }
 
         }
+
+        private void comboBoxChange_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

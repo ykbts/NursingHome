@@ -42,15 +42,15 @@
             this.rolesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.rolesTableAdapter = new NursingHome.NursingHomeDataSetTableAdapters.RolesTableAdapter();
             this.comboBoxChange = new System.Windows.Forms.ComboBox();
+            this.usersBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.nursingHomeDataSet1 = new NursingHome.NursingHomeDataSet();
             this.rolesBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.usersBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.nursingHomeDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.usersBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rolesBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.usersBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nursingHomeDataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rolesBindingSource1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.usersBindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -150,6 +150,12 @@
             this.comboBoxChange.Size = new System.Drawing.Size(139, 24);
             this.comboBoxChange.TabIndex = 1;
             this.comboBoxChange.ValueMember = "RoleId";
+            this.comboBoxChange.SelectedIndexChanged += new System.EventHandler(this.comboBoxChange_SelectedIndexChanged);
+            // 
+            // usersBindingSource1
+            // 
+            this.usersBindingSource1.DataMember = "Users";
+            this.usersBindingSource1.DataSource = this.nursingHomeDataSet1;
             // 
             // nursingHomeDataSet1
             // 
@@ -160,11 +166,6 @@
             // 
             this.rolesBindingSource1.DataMember = "Roles";
             this.rolesBindingSource1.DataSource = this.nursingHomeDataSet1;
-            // 
-            // usersBindingSource1
-            // 
-            this.usersBindingSource1.DataMember = "Users";
-            this.usersBindingSource1.DataSource = this.nursingHomeDataSet1;
             // 
             // Form1
             // 
@@ -186,9 +187,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.nursingHomeDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.usersBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rolesBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.usersBindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nursingHomeDataSet1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rolesBindingSource1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.usersBindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
