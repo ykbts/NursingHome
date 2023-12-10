@@ -114,6 +114,11 @@ namespace NursingHome
                 adapter.Fill(ds);
                 dataGridView3.DataSource = ds.Tables[0];
             }
+            comboBoxPatient.DataBindings.Clear();
+            textBoxTime.DataBindings.Clear();
+            textBoxDuration.DataBindings.Clear();
+            comboBoxPlace.DataBindings.Clear();
+            comboBoxTitle.DataBindings.Clear();
 
             comboBoxPatient.DataBindings.Add("Text", ds.Tables[0], "FullName", true);
             CreateListPatient();
@@ -121,7 +126,10 @@ namespace NursingHome
             textBoxDuration.DataBindings.Add("Text", ds.Tables[0], "Duration", true);
             comboBoxPlace.DataBindings.Add("Text", ds.Tables[0], "Place", true);
             comboBoxTitle.DataBindings.Add("Text", ds.Tables[0], "Title", true);
-            
+
+
+
+
         }
 
         private void tabPage2_Click(object sender, EventArgs e)
@@ -212,7 +220,7 @@ namespace NursingHome
                     if (selectedRow.Cells["PatientId"].Value != null &&
                         int.TryParse(selectedRow.Cells["PatientId"].Value.ToString(), out int idPatient))
                     {
-                        string sql2 = $"SELECT Medicines.Name, Dose, [Time] ,Medicines.Amount\r\nFROM Appointments \r\nJoin Medicines ON Appointments.MedicineId = Medicines.MedicineId WHERE PatientId = {idPatient}";
+                        string sql2 = $"SELECT Medicines.Name, Dose, Appointments.Duration as 'Time' ,Medicines.Amount\r\nFROM Appointments \r\nJoin Medicines ON Appointments.MedicineId = Medicines.MedicineId WHERE PatientId = {idPatient}";
 
                         using (SqlConnection connection = new SqlConnection(connectionString))
                         {
@@ -304,6 +312,7 @@ namespace NursingHome
             {
                 try
                 {
+                    dataGridView3.DataBindings.Clear();
                     connection.Open();
                     SqlCommand command = new SqlCommand();
                     command.Connection = connection;
@@ -314,7 +323,7 @@ namespace NursingHome
                     {
                         // Insert new record since ScheduleId is DBNull
                         command.CommandText = @"INSERT INTO Schedules (PatientId, EmployeeId, TreatmentId, PlaceId, [Time]) 
-                                       VALUES (@PatientId, @EmployeeId, @TreatmentId, @PlaceId, @Time);";
+                       VALUES (@PatientId, @EmployeeId, @TreatmentId, @PlaceId, @Time);";
 
                     }
                     else
@@ -340,14 +349,16 @@ namespace NursingHome
                     command.Parameters.Add("@Time", SqlDbType.VarChar, 20).Value = textBoxTime.Text;
 
                     command.ExecuteNonQuery();
-                    DisplayDataOnForm(id);
+
                     dataGridView3.Refresh();
+
+
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Failed to update the record in the database. Error: " + ex.Message);
                 }
-
+                DisplayDataOnForm(id);
             }
         }
 

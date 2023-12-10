@@ -84,8 +84,8 @@ namespace NursingHome
                                     this.Hide();
                                     break;
                                 case "Admin":
-                                    Employee employee5 = new Employee(userId);
-                                    employee5.Show();
+                                    Admin admin = new Admin(userId);
+                                    admin.Show();
                                     this.Hide();
                                     break;
                                 default:
