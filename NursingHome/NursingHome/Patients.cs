@@ -21,11 +21,43 @@ namespace NursingHome
 
         SqlDataAdapter adapter;
         DataSet ds;
+        private Button[] buttons;
+
         public Patients(int id)
         {
             InitializeComponent();
             DisplayDataOnForm(id);
+            Settings();
+        }
+        private void Settings()
+        {
+            dataGridView2.ForeColor = Color.FromArgb(0x47, 0x49, 0x73);
+            dataGridView1.ForeColor = Color.FromArgb(0x47, 0x49, 0x73);
 
+
+            dataGridView1.BackgroundColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+            dataGridView2.BackgroundColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+
+            tabPage1.BackColor = Color.Lavender;
+
+            tabPage2.BackColor = Color.Lavender;
+
+            buttons = new Button[] { button1, Filter, button4 };
+
+            ApplyControlBordersColor();
+        }
+
+        private void ApplyControlBordersColor()
+        {
+            Color borderColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+
+            foreach (Button button in buttons)
+            {
+                button.FlatStyle = FlatStyle.Flat;
+                button.FlatAppearance.BorderColor = borderColor;
+                button.FlatAppearance.BorderSize = 1;
+                button.BackColor = borderColor;
+            }
         }
         private void DisplayDataOnForm(int id)
         {
@@ -41,7 +73,7 @@ namespace NursingHome
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                         patientId = reader.GetInt32(0);
+                        patientId = reader.GetInt32(0);
                         string FirstName = reader.GetString(1);
                         string LastName = reader.GetString(2);
                         string gender = reader.GetString(3);
@@ -78,12 +110,12 @@ namespace NursingHome
                         textBoxGender.Text = gender.ToString();
                         textBoxPhone.Text = phone.ToString();
                         textBoxPostalCode.Text = postalCode.ToString();
-                        textBoxRoom.Text = roomNumb.ToString(); 
+                        textBoxRoom.Text = roomNumb.ToString();
                         textBoxTrait.Text = trait.ToString();
                         CreateListCountry(countryId);
                         selectedCountryName = comboBoxCountry.Text.ToString();
                         CreateListCity(cityId, selectedCountryName);
-                        comboBoxCity.Text= city;
+                        comboBoxCity.Text = city;
 
 
                         break;
@@ -97,6 +129,22 @@ namespace NursingHome
                         dataGridView1.DataSource = ds.Tables[0];
 
                     }
+
+
+                    string sql2 = $"Select SugarLevel, Temperature, Billirubin, Koagulation, Cholesterol from MedicalRecord where PatientId = {patientId}";
+                    using (SqlConnection connection1 = new SqlConnection(connectionString))
+                    {
+                        adapter = new SqlDataAdapter(sql2, connection1);
+                        ds = new DataSet();
+                        adapter.Fill(ds);
+                        dataGridView2.DataSource = ds.Tables[0];
+
+                    }
+                    dataGridView1.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold);
+                    dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                    dataGridView2.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold);
+                    dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
                 }
                 catch (Exception ex)
                 {
@@ -538,6 +586,11 @@ namespace NursingHome
         }
 
         private void label13_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }

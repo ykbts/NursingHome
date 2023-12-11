@@ -17,6 +17,13 @@ namespace NursingHome
         public Form1()
         {
             InitializeComponent();
+            this.BackColor = Color.Lavender;
+            Color borderColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+            Continue.FlatStyle = FlatStyle.Flat;
+            Continue.FlatAppearance.BorderColor = borderColor;
+            Continue.FlatAppearance.BorderSize = 1;
+            Continue.BackColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+            label1.ForeColor =  Color.FromArgb(0x47, 0x49, 0x73); ;
         }
 
         private void label1_Click(object sender, EventArgs e)

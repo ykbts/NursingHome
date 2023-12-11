@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar;
+using Button = System.Windows.Forms.Button;
 
 namespace NursingHome
 {
@@ -27,6 +29,8 @@ namespace NursingHome
 
         SqlDataAdapter adapter;
         DataSet ds;
+        private System.Windows.Forms.Button[] buttons;
+
         public Employee(int id)
         {
             InitializeComponent();
@@ -41,9 +45,43 @@ namespace NursingHome
                 adapter.Fill(ds);
                 dataGridView1.DataSource = ds.Tables[0];
                 dataGridView1.Columns["PatientId"].ReadOnly = true;
+                dataGridView1.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold);
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                Settings();
 
             }
       }
+        private void Settings()
+        {
+            dataGridView1.ForeColor = Color.FromArgb(0x47, 0x49, 0x73);
+            dataGridView2.ForeColor = Color.FromArgb(0x47, 0x49, 0x73);
+            dataGridView3.ForeColor = Color.FromArgb(0x47, 0x49, 0x73);
+            dataGridView4.ForeColor = Color.FromArgb(0x47, 0x49, 0x73);
+
+            dataGridView1.BackgroundColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+            dataGridView2.BackgroundColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+            dataGridView3.BackgroundColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+            dataGridView4.BackgroundColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+
+            tabPage1.BackColor = Color.Lavender;
+
+            tabPage2.BackColor = Color.Lavender;
+            tabPage3.BackColor = Color.Lavender;
+            buttons = new Button[] { button1, button2, button3, button4 };
+            ApplyControlBordersColor();
+        }
+        private void ApplyControlBordersColor()
+        {
+            Color borderColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+
+            foreach (Button button in buttons)
+            {
+                button.FlatStyle = FlatStyle.Flat;
+                button.FlatAppearance.BorderColor = borderColor;
+                button.FlatAppearance.BorderSize = 1;
+                button.BackColor = borderColor;
+            }
+        }
         private void DisplayDataOnForm(int id)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -113,6 +151,8 @@ namespace NursingHome
                 ds = new DataSet();
                 adapter.Fill(ds);
                 dataGridView3.DataSource = ds.Tables[0];
+                dataGridView3.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold);
+                dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             }
             comboBoxPatient.DataBindings.Clear();
             textBoxTime.DataBindings.Clear();
@@ -218,7 +258,7 @@ namespace NursingHome
 
                     // Assuming PatientId is stored in a specific cell (change index accordingly)
                     if (selectedRow.Cells["PatientId"].Value != null &&
-                        int.TryParse(selectedRow.Cells["PatientId"].Value.ToString(), out int idPatient))
+                       int.TryParse(selectedRow.Cells["PatientId"].Value.ToString(), out int idPatient))
                     {
                         string sql2 = $"SELECT Medicines.Name, Dose, Appointments.Duration as 'Time' ,Medicines.Amount\r\nFROM Appointments \r\nJoin Medicines ON Appointments.MedicineId = Medicines.MedicineId WHERE PatientId = {idPatient}";
 
@@ -230,6 +270,19 @@ namespace NursingHome
                             connection.Open();
                             adapter.Fill(ds);
                             dataGridView2.DataSource = ds.Tables[0];
+                            dataGridView2.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold);
+                            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                        }
+                        string sql3 = $"Select SugarLevel, Temperature, Billirubin, Koagulation, Cholesterol from MedicalRecord where PatientId = {idPatient}";
+                        using (SqlConnection connection1 = new SqlConnection(connectionString))
+                        {
+                            adapter = new SqlDataAdapter(sql3, connection1);
+                            ds = new DataSet();
+                            adapter.Fill(ds);
+                            dataGridView4.DataSource = ds.Tables[0];
+                            dataGridView4.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold);
+                            dataGridView4.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
                         }
                     }
                     else

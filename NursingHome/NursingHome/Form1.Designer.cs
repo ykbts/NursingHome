@@ -26,7 +26,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+       private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
@@ -52,63 +52,69 @@
             ((System.ComponentModel.ISupportInitialize)(this.nursingHomeDataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rolesBindingSource1)).BeginInit();
             this.SuspendLayout();
+
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold);
             this.label1.Location = new System.Drawing.Point(116, 47);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 29);
+            this.label1.Size = new System.Drawing.Size(95, 31);
             this.label1.TabIndex = 0;
             this.label1.Text = "Log In";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(42, 220);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label2.Location = new System.Drawing.Point(26, 218);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 16);
+            this.label2.Size = new System.Drawing.Size(98, 25);
             this.label2.TabIndex = 3;
             this.label2.Text = "Password";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.label3.Location = new System.Drawing.Point(73, 266);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(36, 16);
+            this.label3.Size = new System.Drawing.Size(51, 25);
             this.label3.TabIndex = 4;
             this.label3.Text = "Role";
             // 
             // Id
             // 
             this.Id.AutoSize = true;
-            this.Id.Location = new System.Drawing.Point(42, 178);
+            this.Id.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.Id.Location = new System.Drawing.Point(22, 178);
             this.Id.Name = "Id";
-            this.Id.Size = new System.Drawing.Size(70, 16);
+            this.Id.Size = new System.Drawing.Size(102, 25);
             this.Id.TabIndex = 2;
             this.Id.Text = "Username";
-            this.Id.Click += new System.EventHandler(this.Id_Click);
             // 
             // textBoxUsername
             // 
+            this.textBoxUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.textBoxUsername.Location = new System.Drawing.Point(146, 178);
             this.textBoxUsername.Name = "textBoxUsername";
-            this.textBoxUsername.Size = new System.Drawing.Size(139, 22);
+            this.textBoxUsername.Size = new System.Drawing.Size(139, 26);
             this.textBoxUsername.TabIndex = 5;
             // 
             // textBoxPassword
             // 
+            this.textBoxPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.textBoxPassword.Location = new System.Drawing.Point(146, 217);
             this.textBoxPassword.Name = "textBoxPassword";
-            this.textBoxPassword.Size = new System.Drawing.Size(139, 22);
+            this.textBoxPassword.Size = new System.Drawing.Size(139, 26);
             this.textBoxPassword.TabIndex = 6;
+            this.textBoxPassword.UseSystemPasswordChar = true;
             // 
             // Continue
             // 
-            this.Continue.Location = new System.Drawing.Point(84, 339);
+            this.Continue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.Continue.Location = new System.Drawing.Point(100, 339);
             this.Continue.Name = "Continue";
             this.Continue.Size = new System.Drawing.Size(111, 44);
             this.Continue.TabIndex = 7;
@@ -144,10 +150,11 @@
             this.comboBoxChange.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.usersBindingSource1, "RoleId", true));
             this.comboBoxChange.DataSource = this.rolesBindingSource1;
             this.comboBoxChange.DisplayMember = "RoleName";
+            this.comboBoxChange.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.comboBoxChange.FormattingEnabled = true;
             this.comboBoxChange.Location = new System.Drawing.Point(146, 263);
             this.comboBoxChange.Name = "comboBoxChange";
-            this.comboBoxChange.Size = new System.Drawing.Size(139, 24);
+            this.comboBoxChange.Size = new System.Drawing.Size(139, 28);
             this.comboBoxChange.TabIndex = 1;
             this.comboBoxChange.ValueMember = "RoleId";
             this.comboBoxChange.SelectedIndexChanged += new System.EventHandler(this.comboBoxChange_SelectedIndexChanged);

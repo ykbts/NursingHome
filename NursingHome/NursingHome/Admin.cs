@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NursingHome.Properties;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolBar;
+using Button = System.Windows.Forms.Button;
 
 namespace NursingHome
 {
@@ -23,11 +26,50 @@ namespace NursingHome
         int id;
         SqlDataAdapter adapter;
         DataSet ds;
+        private System.Windows.Forms.Button[] buttons;
+
         public Admin(int userId)
         {
             InitializeComponent();
             DisplayDataOnForm(userId);
-           
+            Settings();
+            dataGridView3.SelectionChanged += dataGridView4_SelectionChanged;
+            dataGridView5.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold);
+            dataGridView5.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+        }
+        private void Settings()
+        {
+            dataGridView1.ForeColor= Color.FromArgb(0x47, 0x49, 0x73);
+            dataGridView2.ForeColor = Color.FromArgb(0x47, 0x49, 0x73);
+            dataGridView3.ForeColor = Color.FromArgb(0x47, 0x49, 0x73);
+            dataGridView4.ForeColor = Color.FromArgb(0x47, 0x49, 0x73);
+            dataGridView5.ForeColor = Color.FromArgb(0x47, 0x49, 0x73);
+            dataGridView1.BackgroundColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+            dataGridView2.BackgroundColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+            dataGridView3.BackgroundColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+            dataGridView4.BackgroundColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+            dataGridView5.BackgroundColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+            tabPage1.BackColor = Color.Lavender;
+            tabPageEmployeeId.BackColor = Color.Lavender;
+            tabPage2.BackColor = Color.Lavender;
+            tabPage3.BackColor = Color.Lavender;
+            buttons = new Button[] { button1, button2, button3, button4, button5, button6, button7, button8, button9 };
+
+            ApplyControlBordersColor();
+        }
+
+        private void ApplyControlBordersColor()
+        {
+            Color borderColor = Color.FromArgb(0xAA, 0xA1, 0xC8);
+
+            foreach (Button button in buttons)
+            {
+                button.FlatStyle = FlatStyle.Flat;
+                button.FlatAppearance.BorderColor = borderColor;
+                button.FlatAppearance.BorderSize = 1;
+                button.BackColor = borderColor;
+            }
         }
         private void DisplayDataOnForm(int id)
         {
@@ -35,6 +77,7 @@ namespace NursingHome
             PatientsOnViewForm(id);
             EmployeeOnBoxForm(id);
             EmployeeOnViewForm(id);
+            RoomsOnViewForm();
         }
         private void PatientsOnBoxForm(int id) 
         {
@@ -66,7 +109,7 @@ namespace NursingHome
                         DateTime entryDate = reader.GetDateTime(10);
                         string entryDateString = birthday.ToString("yyyy-MM-dd");
 
-                        //  int userId = reader.GetInt32(11);
+                       
                         string Address = reader.GetString(14);
                         int cityId = reader.GetInt32(13);
                         string address = reader.GetString(14);
@@ -91,7 +134,7 @@ namespace NursingHome
                         textBoxRoom.Text = roomNumb.ToString();
                         textBoxTrait.Text = trait.ToString();
                         CreateListCountry(countryId);
-                        comboBoxCountry.Text = selectedCountryName;
+                        selectedCountryName = comboBoxCountry.Text;
                         CreateListCity(cityId, selectedCountryName);
                         comboBoxCity.Text = city;
 
@@ -123,8 +166,10 @@ namespace NursingHome
                         adapter.Fill(ds);
                         dataGridView1.DataSource = ds.Tables[0];
                         dataGridView1.Columns["PatientId"].ReadOnly = true;
+                    dataGridView1.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold);
+                    dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
-                        textBoxID.DataBindings.Clear();
+                    textBoxID.DataBindings.Clear();
                         textBoxFirstName.DataBindings.Clear();
                         textBoxLastName.DataBindings.Clear();
                         dateTimeBirthday.DataBindings.Clear();
@@ -213,8 +258,8 @@ namespace NursingHome
 
 
                         CreateListCountryEmployee(CountryId);
-                        selectedCountryName = comboBoxEmployeeCountry.Text.ToString();
-                        CreateListCityEmployee(cityId, selectedCountryName);
+                        selectedCountryNameEmployee = comboBoxEmployeeCountry.Text.ToString();
+                        CreateListCityEmployee(cityId, selectedCountryNameEmployee);
                         textBoxEmployeejobDesription.Text = jobDesription.ToString();
 
                         CreateListProffesion(proffesionId);
@@ -242,6 +287,8 @@ namespace NursingHome
                     adapter.Fill(ds);
                     dataGridView2.DataSource = ds.Tables[0];
                     dataGridView2.Columns["EmployeeId"].ReadOnly = true;
+                    dataGridView2.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold);
+                    dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
                     textBoxEmployeeId.DataBindings.Clear();
                     textBoxEmployeeName.DataBindings.Clear();
@@ -275,10 +322,32 @@ namespace NursingHome
                 }
             }
         }
+        private void RoomsOnViewForm()
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    string query = $"Select * From Rooms ";
+
+                    adapter = new SqlDataAdapter(query, connection);
+                    ds = new DataSet();
+                    adapter.Fill(ds);
+                    dataGridView3.DataSource = ds.Tables[0];
+                    dataGridView3.Columns["RoomId"].ReadOnly = true;
+                    dataGridView3.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold);
+                    dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Не вийшло отримати дані з БД");
+                }
+            }
+        }
 
         private void CreateListCountryEmployee(int countryId)
         {
-            comboBoxCountry.Items.Clear();
+            comboBoxEmployeeCountry.Items.Clear();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -347,6 +416,8 @@ namespace NursingHome
         }
         private void Admin_Load(object sender, EventArgs e)
         {
+            // TODO: This line of code loads data into the 'nursingHomeDataSet.Medicines' table. You can move, or remove it, as needed.
+            this.medicinesTableAdapter.Fill(this.nursingHomeDataSet.Medicines);
 
         }
 
@@ -423,6 +494,7 @@ namespace NursingHome
         private void CreateListCity(int cityId, string countryName)
         {
             comboBoxCity.Items.Clear();
+            comboBoxEmployeeCity.Items.Clear();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
@@ -442,11 +514,12 @@ namespace NursingHome
                         int currentCityId = reader.GetInt32(0);
                         string cityName = reader.GetString(1);
 
-
+                        comboBoxEmployeeCity.Items.Add(cityName);
                         comboBoxCity.Items.Add(cityName);
 
                         if (currentCityId == cityId)
                         {
+                            comboBoxEmployeeCity.SelectedItem = cityName;
                             comboBoxCity.SelectedItem = cityName;
                         }
                     }
@@ -645,18 +718,17 @@ namespace NursingHome
 
                     if (selectedPatientIdValue == DBNull.Value)
                     {
-                        // Insert new user
+
                         string username = "user_" + Guid.NewGuid().ToString();
                         string password = GenerateRandomPassword();
-                        string insertUserQuery = $"INSERT INTO Users (Username, Password, RoleId) VALUES ('{username}', '{password}', 4)";
+                        string insertUserQuery = $"INSERT INTO Users (Username, Password, RoleId) VALUES ('{username}', '{password}', 3)";
                         command.CommandText = insertUserQuery;
                         command.ExecuteNonQuery();
 
-                        // Get the generated UserId
+
                         command.CommandText = "SELECT SCOPE_IDENTITY()";
                         int userId = Convert.ToInt32(command.ExecuteScalar());
 
-                        // Insert new patient with the obtained UserId
                         string insertPatientQuery = @"INSERT INTO Patients
                     (
                         FirstName,
@@ -743,7 +815,8 @@ namespace NursingHome
                     MessageBox.Show("Failed to update the record in the database. Error: " + ex.Message);
                 }
                 dataGridView1.Refresh();
-                DisplayDataOnForm(id);
+                PatientsOnViewForm(id);
+              //  DisplayDataOnForm(id);
 
             }
         }
@@ -763,7 +836,7 @@ namespace NursingHome
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        // Set parameters
+
                         command.Parameters.Add("@Address", SqlDbType.VarChar, 100).Value = address;
                         command.Parameters.Add("@PostalCode", SqlDbType.VarChar, 10).Value = postalCode;
                         command.Parameters.Add("@CityId", SqlDbType.Int).Value = cityId;
@@ -776,17 +849,16 @@ namespace NursingHome
                         }
                         else
                         {
-                            // Address not found, insert a new one
+                            
                             string insertQuery = "INSERT INTO Addresses (CityId, Address, PostalCode) VALUES (@CityId, @Address, @PostalCode); SELECT SCOPE_IDENTITY();";
 
                             using (SqlCommand insertCommand = new SqlCommand(insertQuery, connection))
                             {
-                                // Set parameters for the insertion
                                 insertCommand.Parameters.Add("@CityId", SqlDbType.Int).Value = cityId;
                                 insertCommand.Parameters.Add("@Address", SqlDbType.VarChar, 100).Value = address;
                                 insertCommand.Parameters.Add("@PostalCode", SqlDbType.VarChar, 10).Value = postalCode;
 
-                                // Execute the insertion and get the new AddressId
+                               
                                 object newAddressId = insertCommand.ExecuteScalar();
 
                                 if (newAddressId != null && newAddressId != DBNull.Value)
@@ -795,7 +867,7 @@ namespace NursingHome
                                 }
                                 else
                                 {
-                                    // Handle the case where the insertion did not succeed
+                                    
                                     MessageBox.Show("Failed to insert a new address into the Addresses table.");
                                     return -1;
                                 }
@@ -825,7 +897,7 @@ namespace NursingHome
 
                     SqlCommand command = new SqlCommand(query, connection);
 
-                    // Set parameters
+
                     command.Parameters.Add("@CityName", SqlDbType.VarChar, 100).Value = cityName;
                     command.Parameters.Add("@CountryName", SqlDbType.VarChar, 100).Value = countryName;
 
@@ -837,7 +909,7 @@ namespace NursingHome
                     }
                     else
                     {
-                        // Handle the case where the city was not found
+
                         MessageBox.Show("City not found in the Cities table.");
                         return -1;
                     }
@@ -899,7 +971,7 @@ namespace NursingHome
                     }
                     else
                     {
-                        // Trait not found, insert a new one
+                        
                         string insertSql = "INSERT INTO Traits (Name) VALUES (@Name); SELECT SCOPE_IDENTITY();";
                         SqlCommand insertCommand = new SqlCommand(insertSql, connection);
                         insertCommand.Parameters.Add("@Name", SqlDbType.VarChar, 255).Value = trait;
@@ -912,7 +984,7 @@ namespace NursingHome
                         }
                         else
                         {
-                            // Handle the case where the insertion did not succeed
+                           
                             MessageBox.Show("Failed to insert a new trait into the Traits table.");
                             return -1;
                         }
@@ -928,8 +1000,7 @@ namespace NursingHome
         static string GenerateRandomPassword()
         {
             const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-_=+";
-            const int passwordLength = 12; // You can adjust the length of the password
-
+            const int passwordLength = 12; 
             StringBuilder password = new StringBuilder();
             Random random = new Random();
 
@@ -965,19 +1036,16 @@ namespace NursingHome
                     object selectedPatientIdValue = dataGridView2.SelectedRows[0].Cells["EmployeeId"].Value;
 
                     if (selectedPatientIdValue == DBNull.Value)
-                    {
-                        // Insert new user
+                    { 
                         string username = "user_" + Guid.NewGuid().ToString();
                         string password = GenerateRandomPassword();
                         string insertUserQuery = $"INSERT INTO Users (Username, Password, RoleId) VALUES ('{username}', '{password}', 2)";
                         command.CommandText = insertUserQuery;
                         command.ExecuteNonQuery();
 
-                        // Get the generated UserId
                         command.CommandText = "SELECT SCOPE_IDENTITY()";
                         int userId = Convert.ToInt32(command.ExecuteScalar());
 
-                        // Insert new patient with the obtained UserId
                         string insertPatientQuery = @"INSERT INTO Employees 
                                    (FirstName, LastName, Birthday, AddressId, PositionsId, Salary, PhoneNumber,  UserId) 
                                    VALUES 
@@ -1012,7 +1080,6 @@ namespace NursingHome
                     string phone = textBoxEmployeePhone.Text;
                     int cityId = GetCityId(comboBoxEmployeeCity.Text, comboBoxEmployeeCountry.Text);
                     int addressId = GetAddressId(textBoxEmployeeAddress.Text, textBoxEmployeeCode.Text, cityId);
-                   // command.Parameters.Add("@EmployeeId", SqlDbType.Int).Value = employeeId;
                     command.Parameters.Add("@FirstName", SqlDbType.VarChar, 50).Value = firstName;
                     command.Parameters.Add("@LastName", SqlDbType.VarChar, 50).Value = lastName;
                     DateTime birthday = dateTimeBirthday.Value;
@@ -1031,7 +1098,7 @@ namespace NursingHome
                     MessageBox.Show("Failed to update employee information. Error: " + ex.Message);
                 }
                 dataGridView2.Refresh();
-                DisplayDataOnForm(id);
+                EmployeeOnViewForm(id);
             }
         }
         private int GetPositionId(string positionName, string jobDescription)
@@ -1190,6 +1257,133 @@ namespace NursingHome
                 selectedCountryNameEmployee = comboBoxEmployeeCountry.Text.ToString();
                 CreateListCity(0, selectedCountryNameEmployee);
             }
+        }
+
+        private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView4_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView4_SelectionChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView3_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dataGridView3.SelectedRows.Count > 0)
+                {
+                    DataGridViewRow selectedRow = dataGridView3.SelectedRows[0];
+
+                    if (selectedRow.Cells["RoomId"].Value != null &&
+                        int.TryParse(selectedRow.Cells["RoomId"].Value.ToString(), out int idRoom))
+                    {
+                        string sql2 = $"Select FirstName, LastName from Patients where RoomId = {idRoom}";
+
+                        using (SqlConnection connection = new SqlConnection(connectionString))
+                        {
+                            SqlDataAdapter adapter = new SqlDataAdapter(sql2, connection);
+                            DataSet ds = new DataSet();
+
+                            connection.Open();
+                            adapter.Fill(ds);
+                            dataGridView4.DataSource = ds.Tables[0];
+                            dataGridView4.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10, System.Drawing.FontStyle.Bold);
+                            dataGridView4.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid PatientId or null value.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            int nextMedicineId = GetNextMedicineId();
+            medicinesBindingSource.AddNew();
+               dataGridView5.Rows[dataGridView5.Rows.Count-2].Cells[0].Value = nextMedicineId;
+
+        }
+        private int GetNextMedicineId()
+        {
+            int nextMedicineId = 1;  
+
+          
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT MAX(MedicineId) FROM Medicines";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+
+                    object result = command.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+ 
+                        nextMedicineId = Convert.ToInt32(result) + 1;
+                    }
+                }
+            }
+
+            return nextMedicineId;
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            this.Validate();
+            this.medicinesBindingSource.EndEdit();
+            this.medicinesTableAdapter.Update(nursingHomeDataSet.Medicines);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            medicinesBindingSource.RemoveCurrent();
+        }
+
+        private void dataGridView5_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form1 form1 = new Form1();
+            form1.Show();
+            this.Hide();
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
