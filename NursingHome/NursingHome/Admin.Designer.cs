@@ -140,7 +140,7 @@
             // 
             this.exitToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(51, 24);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(51, 26);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -382,7 +382,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label8.Location = new System.Drawing.Point(839, 321);
+            this.label8.Location = new System.Drawing.Point(829, 321);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(126, 20);
             this.label8.TabIndex = 66;
